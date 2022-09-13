@@ -542,8 +542,8 @@
       }
     },
     "src/Contract.sol": {
-      "lastModificationDate": 1663065762240,
-      "contentHash": "1c99cc1a46a433d56508d6df09ab0f8b",
+      "lastModificationDate": 1663071008324,
+      "contentHash": "25418e446d485917d14d8ef4b37512eb",
       "sourceName": "src/Contract.sol",
       "solcConfig": {
         "settings": {
@@ -580,8 +580,8 @@
       ],
       "versionRequirement": ">=0.8.10",
       "artifacts": {
-        "NFT": {
-          "0.8.13+commit.abaa5c0e.Darwin.appleclang": "Contract.sol/NFT.json"
+        "AuroraFloo": {
+          "0.8.13+commit.abaa5c0e.Darwin.appleclang": "Contract.sol/AuroraFloo.json"
         }
       }
     },
