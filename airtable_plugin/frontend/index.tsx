@@ -1,16 +1,20 @@
 import { initializeBlock } from "@airtable/blocks/ui";
 import React from "react";
 import { Chain } from "wagmi";
+
 import "@rainbow-me/rainbowkit/styles.css";
 
+import { AirConnectButton } from "./AirtableConnectButton";
 import {
   getDefaultWallets,
   RainbowKitProvider,
-  ConnectButton,
+  // ConnectButton,
 } from "@rainbow-me/rainbowkit";
+
 import { chain, configureChains, createClient, WagmiConfig } from "wagmi";
 import { infuraProvider } from "wagmi/providers/infura";
 import { publicProvider } from "wagmi/providers/public";
+
 
 const AURORA_TESTNET: Chain = {
   ...chain.localhost,
@@ -43,7 +47,7 @@ function HelloWorldTypescriptApp() {
     <WagmiConfig client={wagmiClient}>
       <RainbowKitProvider chains={chains}>
         <div>Hello world 🚀</div>
-        <ConnectButton />
+        <AirConnectButton />
       </RainbowKitProvider>
     </WagmiConfig>
   );
