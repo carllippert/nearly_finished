@@ -1,4 +1,4 @@
-import { initializeBlock } from "@airtable/blocks/ui";
+import { initializeBlock, useBase, useRecords } from "@airtable/blocks/ui";
 import React from "react";
 import { Chain } from "wagmi";
 
@@ -14,7 +14,7 @@ import {
 import { chain, configureChains, createClient, WagmiConfig } from "wagmi";
 import { infuraProvider } from "wagmi/providers/infura";
 import { publicProvider } from "wagmi/providers/public";
-
+import { JobItem } from "./Job";
 
 const AURORA_TESTNET: Chain = {
   ...chain.localhost,
@@ -42,12 +42,36 @@ const wagmiClient = createClient({
 });
 
 function HelloWorldTypescriptApp() {
-  // YOUR CODE GOES HERE
+  const base = useBase();
+  const table = base.getTableByName("Jobs");
+  const records = useRecords(table);
+
   return (
     <WagmiConfig client={wagmiClient}>
       <RainbowKitProvider chains={chains}>
-        <div>Hello world 🚀</div>
-        <AirConnectButton />
+        {/* <Box style={{ backgroundColor: "pink" }}> */}
+        {/* Header */}
+        <div
+          style={{
+            // backgroundColor: "pink",
+            flexDirection: "row",
+            display: "flex",
+            marginBottom: "4px",
+            marginTop: "2px",
+            marginRight: "2px",
+          }}
+        >
+          <div style={{ flex: 1 }}></div>
+          <AirConnectButton />
+        </div>
+        {/* Body */}
+        <div>
+          {records.map((record) => {
+            return <JobItem key={record.id} record={record} />;
+            // return <div>{record.name}</div>;
+          })}
+        </div>
+        {/* </Box> */}
       </RainbowKitProvider>
     </WagmiConfig>
   );
