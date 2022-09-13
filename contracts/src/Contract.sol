@@ -58,6 +58,10 @@ contract AuroraFloo is ERC721, Ownable {
         bool creatorConfirmsCompletion;
         // recipient confirms job completion
         bool recipientConfirmsCompletion;
+        //who is allowed to claim
+        mapping(address => bool) allowList;
+        //is their a requirement for claiming
+        bool hasAllowList;
     }
 
     //TODO: need to override _burn so that appropriate users receive funds
@@ -110,12 +114,12 @@ contract AuroraFloo is ERC721, Ownable {
      * @notice Modifiers
      */
     modifier creatorOnly(uint256 _tokenId) {
-        Job memory job = _jobs[_tokenId];
+        Job storage job = _jobs[_tokenId];
         require(msg.sender == job.creator, "Only creator can do this!");
         _;
     }
     modifier recipientOnly(uint256 _tokenId) {
-        Job memory job = _jobs[_tokenId];
+        Job storage job = _jobs[_tokenId];
         require(msg.sender == job.recipient, "Only recipient can do this!");
         _;
     }
@@ -128,7 +132,8 @@ contract AuroraFloo is ERC721, Ownable {
         uint256 _executerFee,
         uint256 _recruiterFee,
         uint256 _creatorFee,
-        uint256 _deadline
+        uint256 _deadline,
+        address[] calldata _allowList
     ) public payable returns (uint256) {
         uint256 _totalFee = _executerFee + _recruiterFee + _creatorFee;
 
@@ -149,18 +154,31 @@ contract AuroraFloo is ERC721, Ownable {
         //no one does the work or if they are fishing etc
         _reclaimableBalances[_recipient] = _executerFee + _recruiterFee;
 
-        _jobs[_tokenId] = Job({
-            name: _name,
-            creator: _creator,
-            recipient: _recipient,
-            executerFee: _executerFee,
-            creatorFee: _creatorFee,
-            recruiterFee: _recruiterFee,
-            deadline: _deadline,
-            tokenURI: _tokenURI,
-            creatorConfirmsCompletion: false,
-            recipientConfirmsCompletion: false
-        });
+        bool _hasAllowList = false;
+
+        // mapping(address => bool) storage _allowList;
+
+        Job storage newJob = _jobs[_tokenId];
+
+        if (_allowList.length > 0) {
+            _hasAllowList = true;
+
+            for (uint256 i = 0; i < _allowList.length; i++) {
+                newJob.allowList[_allowList[i]] = true;
+            }
+        }
+
+        newJob.name = _name;
+        newJob.creator = _creator;
+        newJob.recipient = _recipient;
+        newJob.executerFee = _executerFee;
+        newJob.creatorFee = _creatorFee;
+        newJob.recruiterFee = _recruiterFee;
+        newJob.deadline = _deadline;
+        newJob.tokenURI = _tokenURI;
+        newJob.creatorConfirmsCompletion = false;
+        newJob.recipientConfirmsCompletion = false;
+        newJob.hasAllowList = _hasAllowList;      // newJob.allowList = _allowList;
 
         emit JobCreated(_tokenId);
 
@@ -218,15 +236,20 @@ contract AuroraFloo is ERC721, Ownable {
         return currentTokenId;
     }
 
-    function getJob(uint256 tokenId) public view virtual returns (Job memory) {
+    function getJob(uint256 tokenId)
+        public
+        view
+        virtual
+        returns (string memory)
+    {
         require(
             _exists(tokenId),
             "ERC721URIStorage: URI query for nonexistent token"
         );
 
-        Job memory _job = _jobs[tokenId];
+        Job storage _job = _jobs[tokenId];
 
-        return _job;
+        return _job.name;
     }
 
     function getJobStatus(uint256 tokenId)
@@ -287,7 +310,11 @@ contract AuroraFloo is ERC721, Ownable {
         //TODO: this is probs shit logic
         require(_jobsClaimer[tokenId] == address(0), "token already claimed");
 
-        Job memory job = _jobs[tokenId];
+        Job storage job = _jobs[tokenId];
+
+        if (job.hasAllowList) {
+            require(job.allowList[msg.sender], "Not on allowlist");
+        }
 
         _jobsRecruiter[tokenId] = recruiter;
         _jobsClaimer[tokenId] = executer;
@@ -335,7 +362,7 @@ contract AuroraFloo is ERC721, Ownable {
 
         //token either unclaimed or claimed by executer
         //can be finished if either unclaimed or claimed by finisher
-        Job memory job = _jobs[tokenId];
+        Job storage job = _jobs[tokenId];
 
         if (
             _jobsClaimer[tokenId] == address(0) ||
@@ -389,7 +416,7 @@ contract AuroraFloo is ERC721, Ownable {
     //lock balances to token_id vs address?
     //then you don't need to keep moving when NFT tranfered but may make accessing harder?
     function cancelJob(uint256 tokenId) public returns (uint256) {
-        Job memory job = _jobs[tokenId];
+        Job storage job = _jobs[tokenId];
         //require you are the "recipient" of the nft or owner
         //TODO: ability to simplify be removing recipient in leu of owner?
         //TODO: allow for transfer function for orgs that spin up and down allowing for tranfsers?
@@ -437,7 +464,7 @@ contract AuroraFloo is ERC721, Ownable {
             "you are not the claimer on this job"
         );
 
-        Job memory job = _jobs[tokenId];
+        Job storage job = _jobs[tokenId];
         uint256 _totalFee = job.executerFee + job.recruiterFee;
 
         //if the user is the claimer. delete claim and move capital back to reclaimable

@@ -11,7 +11,7 @@ import { formatUnits, parseUnits, parseEther } from "ethers/lib/utils";
 import { BigNumber } from "ethers";
 import { Box } from "@airtable/blocks/ui";
 
-const contract_address = "0xE3a8C150952AaB6ACA890dfEB86Fd1D0dFc6FFB0";
+const contract_address = "0x5cc1c5A5e032aB8cD5f3ea70b0C0746178716faa";
 
 export const JobItem = ({ record }) => {
   const [hydrated, setHydrated] = useState(false);
