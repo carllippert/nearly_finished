@@ -11,7 +11,7 @@ import { formatUnits, parseUnits, parseEther } from "ethers/lib/utils";
 import { BigNumber } from "ethers";
 import { Box } from "@airtable/blocks/ui";
 
-const contract_address = "0xaFa1610e6F9CD639004a017eDBDd2685d0a8406E";
+const contract_address = "0xE3a8C150952AaB6ACA890dfEB86Fd1D0dFc6FFB0";
 
 export const JobItem = ({ record }) => {
   const [hydrated, setHydrated] = useState(false);
@@ -52,11 +52,17 @@ export const JobItem = ({ record }) => {
 
   const mint = async () => {
     try {
-      const ethExecFee = parseUnits(String(record.getCellValue("exec_fee_eth")));
+      const ethExecFee = parseUnits(
+        String(record.getCellValue("exec_fee_eth"))
+      );
       console.log("ethExecFee " + ethExecFee);
-      const ethRecruiterFee = parseUnits(String(record.getCellValue("rec_fee_eth")));
+      const ethRecruiterFee = parseUnits(
+        String(record.getCellValue("rec_fee_eth"))
+      );
       console.log("ethRecruiterFee " + ethRecruiterFee);
-      const ethCreatorFee = parseUnits(String(record.getCellValue("creator_fee_eth")))
+      const ethCreatorFee = parseUnits(
+        String(record.getCellValue("creator_fee_eth"))
+      );
       console.log("ethCreatorFee " + ethCreatorFee);
       const deadline = Date.now() + 1000;
 
@@ -95,11 +101,11 @@ export const JobItem = ({ record }) => {
   return (
     <div
       style={{
-        fontSize: "20px",
+        fontSize: "14px",
         padding: "2px",
         margin: "2px",
         borderColor: "lightgray",
-        borderWidth: "2px",
+        borderWidth: "1px",
         borderStyle: "solid",
         borderRadius: "2px",
         // backgroundColor: "rebeccaPurple",
