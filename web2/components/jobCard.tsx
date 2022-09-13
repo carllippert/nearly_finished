@@ -127,60 +127,16 @@ const JobCard = ({ tokenID }: { tokenID: string }) => {
   }, [jobData, jobStatusData]);
 
   return (
-    <li
-      className={`${cancelled ? "border-8 border-orange-400" : ""} ${
-        finished ? "border-8 border-green-400" : ""
-      } card col-span-1 flex flex-col rounded-lg shadow-xl bg-base-200 `}
-    >
-      {metadata && job ? (
-        <>
-          <figure>
-            <img src={metadata.image} alt="Work" />
-          </figure>
-          <div className="card-body">
-            {cancelled ? (
-              <div className="badge bg-orange-400 text-white font-bold">
-                Cancelled
-              </div>
-            ) : null}
-            {address === job.recipient ? (
-              <div className="badge badge-secondary">Ours</div>
-            ) : null}
-            {job.executer !== zeroAddress ? (
-              <div className="badge bg-green-400 text-white font-bold">
-                Finished
-              </div>
-            ) : null}
-            <h2 className="card-title">{metadata?.description}</h2>
-            <div className="card-actions">
-              <div>
-                <div>Pays</div>
-
-                <div className="badge badge-outline">
-                  {job.executorFee}
-                  ETH
-                </div>
-              </div>
-              <div>
-                <div> Creator App Reward</div>
-                <div className="badge badge-outline">{job.creatorFee}</div>
-              </div>
-              <div>
-                <div>Recruiter App Reward</div>
-                <div className="badge badge-outline">{job.recruiterFee}</div>
-              </div>
-              <div className="flex gap-2 mt-2">
-                <ClaimButton job={job} />
-              </div>
-              <div>
-                <FinishButton job={job} />
-              </div>
-            </div>
-          </div>
-        </>
-      ) : (
-        <div>{JSON.stringify(job)}</div>
-      )}
+    <li className={`md:flex md:items-center md:justify-between py-8 px-8 my-2 rounded-lg border-2 ${finished ? "border-8 border-green-400" : ""}`} >
+        <div className="min-w-0 flex-1">
+        <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
+            Job Number: {tokenID}
+        </h2>
+        </div>
+        <div className="mt-4 flex md:mt-0 md:ml-4">
+        <ClaimButton job={job} />
+        <FinishButton job={job} />
+        </div>
     </li>
   );
 };

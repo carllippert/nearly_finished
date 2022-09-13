@@ -14,7 +14,7 @@ const ClaimButton = ({
   const [weClaimed, setWeClaimed] = useState(false);
   const { data: signer } = useSigner();
   const { address } = useAccount();
-
+  
   const { write: claimToken } = useDeprecatedContractWrite(
     {
       addressOrName: contract_address,
@@ -60,23 +60,30 @@ const ClaimButton = ({
   };
 
   useEffect(() => {
-    if (job.claimer !== zeroAddress) {
+    if (job.claimer === zeroAddress) {
+      setClaimed(false);
+    } else  {
       setClaimed(true);
       if (job.claimer === address) {
         setWeClaimed(true);
       }
     }
-  }, []);
+  }, [address, job, job.claimer]);
 
   return (
     <>
       {claimed ? (
         <>
           {weClaimed ? (
-            <button onClick={unClaim} className="btn btn-accent">
-              Unclaim
+            <button
+                type="button"
+                onClick={unClaim}
+                className="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+            >
+                Unclaim
             </button>
           ) : (
+            
             <div className="bg-base-200 text-base rounded-md shadow-xl px-4">
               <div> Claimed By:</div>
               {job.claimer.substring(0, 7)}...
@@ -84,8 +91,12 @@ const ClaimButton = ({
           )}
         </>
       ) : (
-        <button onClick={claim} className="btn btn-primary">
-          Claim Job
+        <button
+            type="button"
+            onClick={claim}
+            className="inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+        >
+            Claim Job
         </button>
       )}
     </>

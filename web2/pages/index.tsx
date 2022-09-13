@@ -7,6 +7,8 @@ import { ConnectButton } from '@rainbow-me/rainbowkit';
 const Home: NextPage = () => {
   return (
     <StackedLayout>
+      <JobCard tokenID="1"/>
+      <JobCard tokenID="2"/>
       <JobCard tokenID="3"/>
     </StackedLayout>
   );
