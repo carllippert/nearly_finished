@@ -20,6 +20,7 @@ contract NFT is ERC721, Ownable {
         //are simple to navigate and obviously not the same
         //avergae user will not be a *creator*
         //systems will be creators
+        address creator;
         address recipient;
         //for the entity doing the work. Built in way to hire 3rd parties native to the protocol
         //also often left at zero. For this may be a salaried job not an external one.
@@ -55,6 +56,10 @@ contract NFT is ERC721, Ownable {
         //for this future?
         //TODO: remove after dev
         string tokenURI;
+        // creator confirms job completion
+        bool creatorConfirmsCompletion;
+        // recipient confirms job completion
+        bool recipientConfirmsCompletion;
     }
 
     //TODO: need to override _burn so that appropriate users receive funds
@@ -100,6 +105,20 @@ contract NFT is ERC721, Ownable {
     constructor(string memory _name, string memory _symbol)
         ERC721(_name, _symbol)
     {}
+
+    /**
+     * @notice Modifiers
+     */
+    modifier creatorOnly(uint256 _tokenId) {
+        Job memory job = _jobs[_tokenId];
+        require(msg.sender == job.creator, "Only creator can do this!");
+        _;
+    }
+    modifier recipientOnly(uint256 _tokenId) {
+        Job memory job = _jobs[_tokenId];
+        require(msg.sender == job.recipient, "Only recipient can do this!");
+        _;
+    }
 
     function mintTo(
         address _creator,
@@ -281,9 +300,23 @@ contract NFT is ERC721, Ownable {
         return tokenId;
     }
 
+    function creatorConfirmJobCompletion(uint256 _tokenId)
+        public
+        onlyCreator(_tokenId)
+    {
+        Job storage job = _jobs[tokenId];
+        // ensure that the job hasn't already been completed
+        require(
+            job.creatorConfirmsCompletion == false,
+            "Creator already confirmed completion!"
+        );
+        job.creatorConfirmsCompletion = true;
+    }
+
     //TODO: design of hooks to allow for arbitrary complexity for "completion state determination"
     function finishJob(uint256 tokenId, address executer)
         public
+        onlyRecipient(tokenId)
         returns (uint256)
     {
         //token exists
@@ -305,6 +338,7 @@ contract NFT is ERC721, Ownable {
             if (_jobsClaimer[tokenId] == executer) {
                 //person who minted the job with their money gets money removed from locked
                 _lockedBalances[job.recipient] -= _totalFee;
+                job.recipientConfirmsCompletion = true;
             } else {
                 //if job was *NOT* claimed.
                 //we allow for finishing of unclaimed jobs as a nicety.
