@@ -7,7 +7,6 @@ import ClaimButton from "./claimbutton";
 import FinishButton from "./finishbutton";
 import { useAppContext } from "../context/appContext";
 import { formatEther } from "ethers/lib/utils";
-import { log } from "console";
 
 export const zeroAddress = "0x0000000000000000000000000000000000000000";
 
