@@ -149,12 +149,15 @@ contract AuroraFloo is ERC721, Ownable {
         _reclaimableBalances[_recipient] = _executerFee + _recruiterFee;
 
         _jobs[_tokenId] = Job({
+            creator: _creator,
             recipient: _recipient,
             executerFee: _executerFee,
             creatorFee: _creatorFee,
             recruiterFee: _recruiterFee,
             deadline: _deadline,
-            tokenURI: _tokenURI
+            tokenURI: _tokenURI,
+            creatorConfirmsCompletion: false,
+            recipientConfirmsCompletion: false
         });
 
         emit JobCreated(_tokenId, _jobs[_tokenId]);
@@ -302,9 +305,9 @@ contract AuroraFloo is ERC721, Ownable {
 
     function creatorConfirmJobCompletion(uint256 _tokenId)
         public
-        onlyCreator(_tokenId)
+        creatorOnly(_tokenId)
     {
-        Job storage job = _jobs[tokenId];
+        Job storage job = _jobs[_tokenId];
         // ensure that the job hasn't already been completed
         require(
             job.creatorConfirmsCompletion == false,
@@ -316,7 +319,7 @@ contract AuroraFloo is ERC721, Ownable {
     //TODO: design of hooks to allow for arbitrary complexity for "completion state determination"
     function finishJob(uint256 tokenId, address executer)
         public
-        onlyRecipient(tokenId)
+        recipientOnly(tokenId)
         returns (uint256)
     {
         //token exists
