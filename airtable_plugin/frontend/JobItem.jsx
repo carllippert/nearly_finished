@@ -15,7 +15,7 @@ const contract_address = "0xC025Ac15557a11cc614d1Cf725dB18aeDdf1cFC5";
 export const JobItem = ({ record }) => {
   const [hydrated, setHydrated] = useState(false);
   const { address, isConnecting, isDisconnected } = useAccount();
-  const { data: signer } = useSigner();
+  // const { data: signer } = useSigner();
 
   const { data: blockStamp } = useBlockNumber();
   //on first hit
@@ -42,37 +42,47 @@ export const JobItem = ({ record }) => {
   //     contractInterface: wagmigotchiABI,
   //       functionName: 'feed',
 
-  const { data, isLoading, isSuccess, writeAsync } = useContractWrite({
-    mode: 'recklesslyUnprepared',
+  const { data, isLoading, isSuccess, writeAsync, write } = useContractWrite({
+    mode: "recklesslyUnprepared",
     addressOrName: contract_address,
     contractInterface: AURORA_FLOO_ABI.abi,
     functionName: "mintTo",
   });
-  
 
   const mint = async () => {
     try {
-      const ethExecFee = parseEther("0.0001");
-      const ethRecruiterFee = parseEther("0.0001");
-      const ethCreatorFee = parseEther("0.0001");
-      const deadline = blockStamp + 1000;
+      const ethExecFee = parseUnits("0.000001");
+      console.log("ethExecFee " + ethExecFee);
+      const ethRecruiterFee = parseUnits("0.000001");
+      console.log("ethRecruiterFee " + ethRecruiterFee);
+      const ethCreatorFee = parseUnits("0.000001");
+      console.log("ethCreatorFee " + ethCreatorFee);
+      const deadline = Date.now() + 1000;
+
+      console.log("deadline =>" + deadline);
 
       let payment = BigNumber.from(ethExecFee)
         .add(BigNumber.from(ethCreatorFee))
         .add(BigNumber.from(ethRecruiterFee));
 
-      const stuff = await writeAsync({
+      console.log("Payment" + JSON.stringify(payment));
+      
+      const blob = {
         args: [
           address, //creator
           address, //receiver
-          "Test String About The NFT. In Future a URL to JSON", //tokenuri
+          "https://ctinsvafusekcbpznpfr.supabase.co/storage/v1/object/public/nft-metadata/metadata.json", //tokenuri
           ethExecFee,
           ethRecruiterFee,
           ethCreatorFee,
           deadline,
         ],
         overrides: { value: payment },
-      });
+      };
+
+      console.log("Blob => " + JSON.stringify(blob));
+
+      const stuff = await writeAsync(blob);
 
       console.log("Stuff" + JSON.stringify(stuff));
     } catch (e) {
