@@ -17,6 +17,7 @@ contract AuroraFloo is ERC721, Ownable {
         //are simple to navigate and obviously not the same
         //avergae user will not be a *creator*
         //systems will be creators
+        string name;
         address creator;
         address recipient;
         //for the entity doing the work. Built in way to hire 3rd parties native to the protocol
@@ -121,6 +122,7 @@ contract AuroraFloo is ERC721, Ownable {
     }
 
     function mintTo(
+        string memory _name,
         address _creator,
         address _recipient,
         string memory _tokenURI,
@@ -149,6 +151,7 @@ contract AuroraFloo is ERC721, Ownable {
         _reclaimableBalances[_recipient] = _executerFee + _recruiterFee;
 
         _jobs[_tokenId] = Job({
+            name: _name,
             creator: _creator,
             recipient: _recipient,
             executerFee: _executerFee,
