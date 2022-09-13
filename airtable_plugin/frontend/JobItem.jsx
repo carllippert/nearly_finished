@@ -24,7 +24,8 @@ export const JobItem = ({ record }) => {
      console.log("PleaseMint ?=> " + pleaseMint); 
      let minted = record.getCellValue("minted"); 
      console.log("Minted ?=> " + minted); 
-     
+      
+
      if(pleaseMint && !minted){
       mint();
      }
@@ -63,6 +64,16 @@ export const JobItem = ({ record }) => {
 
       console.log("Payment" + JSON.stringify(payment));
 
+
+      let allowListBlob = record.getCellValue("wallet_address"); 
+      console.log("allowList ?=> " + JSON.stringify(allowListBlob)); 
+
+      let allowlist = []; 
+
+      allowListBlob.forEach((item) => {
+        allowlist.push(item.value); 
+      }); 
+
       let name = record.name;
 
       const blob = {
@@ -76,7 +87,7 @@ export const JobItem = ({ record }) => {
           ethRecruiterFee,
           ethCreatorFee,
           deadline,
-          [], //add user addresses
+          allowlist, //add user addresses
         ],
         overrides: { value: payment },
       };

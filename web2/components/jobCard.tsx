@@ -77,30 +77,6 @@ const JobCard = ({ tokenID }: { tokenID: string }) => {
     }
   );
 
-  // const fetchMeta = async () => {
-  //   try {
-        
-  //     setLoading(true);
-  //     console.log("TokenURI -> " + job?.tokenURI);
-  //     let res = await fetch(String(job?.tokenURI));
-  //     let json = await res.json();
-
-  //     setMetadata(json);
-  //   } catch (error) {
-  //     console.log(error);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   if (job.tokenURI) {
-  //     fetchMeta();
-  //   }
-  // }, [job.tokenURI]);
-
-
-
   useEffect(() => {
     if(jobStatusData && jobData){
     console.log("JobStatusData => " + JSON.stringify(jobStatusData)); 
@@ -130,12 +106,11 @@ const JobCard = ({ tokenID }: { tokenID: string }) => {
   return (
     <li className={`md:flex md:items-center md:justify-between py-8 px-8 my-2 rounded-lg border-2 ${finished ? "border-8 border-green-400" : ""}`} >
         <div className="min-w-0 flex-1">
-        <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
-            Job Number: {tokenID}
-        </h2>
-        {JSON.stringify(job, null, 3)}
+        <div className="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
+            {job.name}
         </div>
-        <div className="mt-4 flex md:mt-0 md:ml-4 bg-pink-100">
+        </div>
+        <div className="mt-4 flex md:mt-0 md:ml-4">
         <ClaimButton job={job} />
         <FinishButton job={job} />
         </div>

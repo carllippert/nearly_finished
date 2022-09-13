@@ -53,7 +53,7 @@ function HelloWorldTypescriptApp() {
         {/* Header */}
         <div
           style={{
-            backgroundColor: "#9d82f1",
+            backgroundColor: "#8b6fe0",
             flexDirection: "row",
             display: "flex",
             marginBottom: "4px",
@@ -65,7 +65,14 @@ function HelloWorldTypescriptApp() {
             borderRadius: "4px",
           }}
         >
-          <div style={{ flex: 1, fontSize: "25px", fontWeight: "bold" }}>
+          <div
+            style={{
+              flex: 1,
+              fontSize: "25px",
+              // fontWeight: "bold",
+              color: "white",
+            }}
+          >
             The Floo Network 🪄
           </div>
           <AirConnectButton />
