@@ -10,18 +10,21 @@ const MOCK_JOBS = [
     creator: "Creator Name",
     recipient: "Recipient Name",
     status: "Completed",
+    amount: 30,
   },
   {
     name: "This is a Job Name",
     creator: "Creator Name",
     recipient: "Recipient Name",
     status: "Completed",
+    amount: 30,
   },
   {
     name: "This is a Job Name",
     creator: "Creator Name",
     recipient: "Recipient Name",
     status: "Completed",
+    amount: 30,
   },
 ];
 
@@ -32,7 +35,7 @@ const Home: NextPage = () => {
         <ConnectButton />
       </div>
 
-      <h1 className="text-4xl font-bold mt-6 mb-6">🚀 create-web3-frontend</h1>
+      <h1 className="text-4xl font-bold mt-6 mb-6">🚀 The Floo Network</h1>
       <div className="flex-col space-y-3">
         {MOCK_JOBS.map((job: JobProps, idx) => (
           <JobItem {...job} key={idx} />

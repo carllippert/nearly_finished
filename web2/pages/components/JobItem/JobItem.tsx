@@ -5,9 +5,16 @@ export type JobProps = {
   creator: string;
   recipient: string;
   status: string;
+  amount: number;
 };
 
-const JobItem: FC<JobProps> = ({ name, creator, recipient, status }) => {
+const JobItem: FC<JobProps> = ({
+  name,
+  creator,
+  recipient,
+  status,
+  amount,
+}) => {
   return (
     <div className="p-6 max-w-lg mx-auto bg-white rounded-lg border border-gray-200 shadow-md dark:border-gray-700">
       <a href="#">
@@ -19,9 +26,15 @@ const JobItem: FC<JobProps> = ({ name, creator, recipient, status }) => {
         <p className="mb-3 font-normal text-gray-900 dark:text-gray-400">
           {creator}
         </p>
-        <p className="mb-3 font-normal text-gray-900 dark:text-gray-400">
-          {recipient}
-        </p>
+        <div className="flex-row space-between">
+          <p className="mb-3 font-normal text-gray-900 dark:text-gray-400">
+            {recipient}
+          </p>
+          <p className="mb-3 font-normal text-gray-900 dark:text-gray-400">
+            <span className="text-base">Amount:</span>&nbsp;
+            <strong>{amount}&nbsp;NEAR</strong>
+          </p>
+        </div>
         <p className="mb-3 font-semibold text-sky-500 bg-sky-100 w-1/4 mx-auto rounded-md">
           {status}
         </p>
