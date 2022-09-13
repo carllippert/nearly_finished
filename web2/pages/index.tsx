@@ -38,38 +38,6 @@ const Home: NextPage = () => {
           <JobItem {...job} />
         ))}
       </div>
-      <InfoSection />
-    </div>
-  );
-};
-
-const InfoSection: FC = () => {
-  return (
-    <div className="mt-10">
-      <h2 className="text-xl font-bold">If you need help</h2>
-      <div className="flex flex-col gap-2 mt-2">
-        <a
-          href="https://wagmi.sh"
-          target="_blank"
-          className="underline text-gray-600"
-        >
-          Link to wagmi docs
-        </a>
-        <a
-          href="https://github.com/dhaiwat10/create-web3-frontend"
-          target="_blank"
-          className="underline text-gray-600"
-        >
-          Open an issue on Github
-        </a>
-        <a
-          href="https://twitter.com/dhaiwat10"
-          target="_blank"
-          className="underline text-gray-600"
-        >
-          DM me on Twitter
-        </a>
-      </div>
     </div>
   );
 };
