@@ -1,8 +1,18 @@
 import type { NextPage } from 'next';
 import type { FC } from 'react';
+import StackedLayout from '../components/stackedLayout';
+import JobCard from '../components/jobCard';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 const Home: NextPage = () => {
+  return (
+    <StackedLayout>
+      <JobCard tokenID="3"/>
+    </StackedLayout>
+  );
+};
+
+const Wrapper: FC = () => {
   return (
     <div className='py-6 justify-center text-center'>
       <div className='flex justify-center'>
@@ -12,9 +22,8 @@ const Home: NextPage = () => {
       <h1 className='text-4xl font-bold mt-6'>🚀 create-web3-frontend</h1>
       <InfoSection />
     </div>
-  );
-};
-
+  )
+}
 const InfoSection: FC = () => {
   return (
     <div className='mt-10'>
