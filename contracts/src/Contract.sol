@@ -63,7 +63,6 @@ contract AuroraFloo is ERC721, Ownable {
 
     /// @notice Emitted when an ask is created
     /// @param tokenId The ERC-721 token ID of the created Job
-    /// @param job The metadata of the created job
     event JobCreated(uint256 indexed tokenId);
     event JobClaimed(uint256 indexed tokenId);
     event JobConfirmedComplete(uint256 indexed tokenId);

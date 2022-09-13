@@ -53,20 +53,25 @@ function HelloWorldTypescriptApp() {
         {/* Header */}
         <div
           style={{
-            // backgroundColor: "pink",
+            backgroundColor: "#9d82f1",
             flexDirection: "row",
             display: "flex",
             marginBottom: "4px",
             marginTop: "4px",
             marginRight: "4px",
-            height: "50px",
+            marginLeft: "4px",
+            height: "45px",
+            padding: "7px",
+            borderRadius: "4px",
           }}
         >
-          <div style={{ flex: 1 }}>The Floo Network 🪄</div>
+          <div style={{ flex: 1, fontSize: "25px", fontWeight: "bold" }}>
+            The Floo Network 🪄
+          </div>
           <AirConnectButton />
         </div>
         {/* Body */}
-        <div>
+        <div style={{ margin: "2px" }}>
           {records.map((record) => {
             return <JobItem key={record.id} record={record} />;
             // return <div>{record.name}</div>;
