@@ -5,9 +5,6 @@ import "solmate/tokens/ERC721.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-error MintPriceNotPaid();
-error MaxSupply();
-error NonExistentTokenURI();
 error WithdrawTransfer();
 
 contract AuroraFloo is ERC721, Ownable {
@@ -68,6 +65,9 @@ contract AuroraFloo is ERC721, Ownable {
     /// @param tokenId The ERC-721 token ID of the created Job
     /// @param job The metadata of the created job
     event JobCreated(uint256 indexed tokenId, Job job);
+    event JobClaimed(uint256 indexed tokenId, Job job); 
+    event JobConfirmedComplete(uint256 indexed tokenId, Job job);
+    event JobFinished(uint256 indexed tokenId, Job job); 
 
     // Custom URI for each token
     mapping(uint256 => string) private _tokenURIs;
@@ -300,6 +300,8 @@ contract AuroraFloo is ERC721, Ownable {
         _reclaimableBalances[job.recipient] -= _totalFee;
         _lockedBalances[job.recipient] += _totalFee;
 
+        emit JobClaimed(tokenId, job); 
+
         return tokenId;
     }
 
@@ -314,6 +316,8 @@ contract AuroraFloo is ERC721, Ownable {
             "Creator already confirmed completion!"
         );
         job.creatorConfirmsCompletion = true;
+
+        emit JobConfirmedComplete(_tokenId, job); 
     }
 
     //TODO: design of hooks to allow for arbitrary complexity for "completion state determination"
@@ -326,13 +330,16 @@ contract AuroraFloo is ERC721, Ownable {
         _exists(tokenId);
         //require that the token is available to be claimed
         //token not burned
+        
         //token either unclaimed or claimed by executer
+        //can be finished if either unclaimed or claimed by finisher
+        Job memory job = _jobs[tokenId];
+
         if (
             _jobsClaimer[tokenId] == address(0) ||
             _jobsClaimer[tokenId] == executer
         ) {
-            //can be finished if either unclaimed or claimed by finisher
-            Job memory job = _jobs[tokenId];
+          
             uint256 _totalFee = job.executerFee + job.recruiterFee;
             // START by reducing balances from corresponding balances
             //from the person who made the job in the first place
@@ -364,6 +371,9 @@ contract AuroraFloo is ERC721, Ownable {
             //TODO: create custom error for this
             revert("not able to finish job");
         }
+
+        emit JobFinished(tokenId, job); 
+
         return tokenId;
     }
 

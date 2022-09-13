@@ -57,11 +57,12 @@ function HelloWorldTypescriptApp() {
             flexDirection: "row",
             display: "flex",
             marginBottom: "4px",
-            marginTop: "2px",
-            marginRight: "2px",
+            marginTop: "4px",
+            marginRight: "4px",
+            height: "50px",
           }}
         >
-          <div style={{ flex: 1 }}></div>
+          <div style={{ flex: 1 }}>The Floo Network 🪄</div>
           <AirConnectButton />
         </div>
         {/* Body */}

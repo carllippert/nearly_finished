@@ -9,8 +9,9 @@ import {
 import { AURORA_FLOO_ABI } from "./AuroraFlooAbi";
 import { formatUnits, parseUnits, parseEther } from "ethers/lib/utils";
 import { BigNumber } from "ethers";
+import { Box } from "@airtable/blocks/ui";
 
-const contract_address = "0xC025Ac15557a11cc614d1Cf725dB18aeDdf1cFC5";
+const contract_address = "0xaFa1610e6F9CD639004a017eDBDd2685d0a8406E";
 
 export const JobItem = ({ record }) => {
   const [hydrated, setHydrated] = useState(false);
@@ -51,11 +52,11 @@ export const JobItem = ({ record }) => {
 
   const mint = async () => {
     try {
-      const ethExecFee = parseUnits("0.000001");
+      const ethExecFee = parseUnits(String(record.getCellValue("exec_fee_eth")));
       console.log("ethExecFee " + ethExecFee);
-      const ethRecruiterFee = parseUnits("0.000001");
+      const ethRecruiterFee = parseUnits(String(record.getCellValue("rec_fee_eth")));
       console.log("ethRecruiterFee " + ethRecruiterFee);
-      const ethCreatorFee = parseUnits("0.000001");
+      const ethCreatorFee = parseUnits(String(record.getCellValue("creator_fee_eth")))
       console.log("ethCreatorFee " + ethCreatorFee);
       const deadline = Date.now() + 1000;
 
@@ -66,7 +67,7 @@ export const JobItem = ({ record }) => {
         .add(BigNumber.from(ethRecruiterFee));
 
       console.log("Payment" + JSON.stringify(payment));
-      
+
       const blob = {
         args: [
           address, //creator
@@ -91,5 +92,20 @@ export const JobItem = ({ record }) => {
     }
   };
 
-  return <div>{record.name}</div>;
+  return (
+    <div
+      style={{
+        fontSize: "20px",
+        padding: "2px",
+        margin: "2px",
+        borderColor: "lightgray",
+        borderWidth: "2px",
+        borderStyle: "solid",
+        borderRadius: "2px",
+        // backgroundColor: "rebeccaPurple",
+      }}
+    >
+      {record.name}
+    </div>
+  );
 };

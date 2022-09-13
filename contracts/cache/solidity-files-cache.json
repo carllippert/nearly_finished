@@ -542,8 +542,8 @@
       }
     },
     "src/Contract.sol": {
-      "lastModificationDate": 1663074720719,
-      "contentHash": "cc9431f14ef5d104de68c6828adf468d",
+      "lastModificationDate": 1663093536132,
+      "contentHash": "a2e6048a6b3b09450adea7bb30125a87",
       "sourceName": "src/Contract.sol",
       "solcConfig": {
         "settings": {
