@@ -1,17 +1,10 @@
 import React, { useEffect, useState } from "react";
-import {
-  usePrepareContractWrite,
-  useContractWrite,
-  useAccount,
-  useBlockNumber,
-  useSigner,
-} from "wagmi";
+import { useContractWrite, useAccount, useBlockNumber } from "wagmi";
 import { AURORA_FLOO_ABI } from "./AuroraFlooAbi";
-import { formatUnits, parseUnits, parseEther } from "ethers/lib/utils";
+import { parseUnits, parseEther } from "ethers/lib/utils";
 import { BigNumber } from "ethers";
-import { Box } from "@airtable/blocks/ui";
 
-const contract_address = "0x5cc1c5A5e032aB8cD5f3ea70b0C0746178716faa";
+const contract_address = "0x3c0122039dB51EaA5b8A9f258EBc0D2848e2B85b";
 
 export const JobItem = ({ record }) => {
   const [hydrated, setHydrated] = useState(false);
@@ -31,17 +24,6 @@ export const JobItem = ({ record }) => {
       mint();
     }
   }, [record.getCellValue("stateString")]);
-
-  // const { config } = usePrepareContractWrite({
-  //   addressOrName: contract_address,
-  //   contractInterface: AURORA_FLOO_ABI.abi,
-  //   functionName: "mintTo",
-  // });
-
-  // mode: 'recklesslyUnprepared',
-  //   addressOrName: '0xecb504d39723b0be0e3a9aa33d646642d1051ee1',
-  //     contractInterface: wagmigotchiABI,
-  //       functionName: 'feed',
 
   const { data, isLoading, isSuccess, writeAsync, write } = useContractWrite({
     mode: "recklesslyUnprepared",
@@ -74,8 +56,12 @@ export const JobItem = ({ record }) => {
 
       console.log("Payment" + JSON.stringify(payment));
 
+      let name = record.name;
+
       const blob = {
         args: [
+          name,
+          record.id, //airtable id
           address, //creator
           address, //receiver
           "https://ctinsvafusekcbpznpfr.supabase.co/storage/v1/object/public/nft-metadata/metadata.json", //tokenuri
@@ -83,6 +69,7 @@ export const JobItem = ({ record }) => {
           ethRecruiterFee,
           ethCreatorFee,
           deadline,
+          [], //add user addresses
         ],
         overrides: { value: payment },
       };
@@ -108,7 +95,6 @@ export const JobItem = ({ record }) => {
         borderWidth: "1px",
         borderStyle: "solid",
         borderRadius: "2px",
-        // backgroundColor: "rebeccaPurple",
       }}
     >
       {record.name}

@@ -18,6 +18,7 @@ contract AuroraFloo is ERC721, Ownable {
         //avergae user will not be a *creator*
         //systems will be creators
         string name;
+        string recordId; 
         address creator;
         address recipient;
         //for the entity doing the work. Built in way to hire 3rd parties native to the protocol
@@ -126,6 +127,7 @@ contract AuroraFloo is ERC721, Ownable {
 
     function mintTo(
         string memory _name,
+        string memory _recordId, 
         address _creator,
         address _recipient,
         string memory _tokenURI,
@@ -169,6 +171,7 @@ contract AuroraFloo is ERC721, Ownable {
         }
 
         newJob.name = _name;
+        newJob.recordId = _recordId; 
         newJob.creator = _creator;
         newJob.recipient = _recipient;
         newJob.executerFee = _executerFee;
@@ -240,7 +243,7 @@ contract AuroraFloo is ERC721, Ownable {
         public
         view
         virtual
-        returns (string memory)
+        returns (string memory name, string memory recordId, bool hasAllowList)
     {
         require(
             _exists(tokenId),
@@ -249,7 +252,7 @@ contract AuroraFloo is ERC721, Ownable {
 
         Job storage _job = _jobs[tokenId];
 
-        return _job.name;
+        return (_job.name, _job.recordId, _job.hasAllowList); 
     }
 
     function getJobStatus(uint256 tokenId)
