@@ -69,10 +69,10 @@ contract AuroraFloo is ERC721, Ownable {
 
     /// @notice Emitted when an ask is created
     /// @param tokenId The ERC-721 token ID of the created Job
-    event JobCreated(uint256 indexed tokenId);
-    event JobClaimed(uint256 indexed tokenId);
-    event JobConfirmedComplete(uint256 indexed tokenId);
-    event JobFinished(uint256 indexed tokenId);
+    event JobCreated(address indexed _from, uint256 indexed tokenId);
+    event JobClaimed(address indexed _from, uint256 indexed tokenId);
+    event JobConfirmedComplete(address indexed _from, uint256 indexed tokenId);
+    event JobFinished(address indexed _from, uint256 indexed tokenId);
 
     // Custom URI for each token
     mapping(uint256 => string) private _tokenURIs;
@@ -183,7 +183,7 @@ contract AuroraFloo is ERC721, Ownable {
         newJob.recipientConfirmsCompletion = false;
         newJob.hasAllowList = _hasAllowList;      // newJob.allowList = _allowList;
 
-        emit JobCreated(_tokenId);
+        emit JobCreated(msg.sender, _tokenId);
 
         return _tokenId;
     }
@@ -332,7 +332,7 @@ contract AuroraFloo is ERC721, Ownable {
         _reclaimableBalances[job.recipient] -= _totalFee;
         _lockedBalances[job.recipient] += _totalFee;
 
-        emit JobClaimed(tokenId);
+        emit JobClaimed(msg.sender, tokenId);
 
         return tokenId;
     }
@@ -349,7 +349,7 @@ contract AuroraFloo is ERC721, Ownable {
         );
         job.creatorConfirmsCompletion = true;
 
-        emit JobConfirmedComplete(_tokenId);
+        emit JobConfirmedComplete(msg.sender, _tokenId);
     }
 
     //TODO: design of hooks to allow for arbitrary complexity for "completion state determination"
@@ -403,7 +403,7 @@ contract AuroraFloo is ERC721, Ownable {
             revert("not able to finish job");
         }
 
-        emit JobFinished(tokenId);
+        emit JobFinished(msg.sender, tokenId);
 
         return tokenId;
     }
