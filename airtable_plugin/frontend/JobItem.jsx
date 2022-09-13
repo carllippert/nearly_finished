@@ -9,7 +9,6 @@ const contract_address = "0x3c0122039dB51EaA5b8A9f258EBc0D2848e2B85b";
 export const JobItem = ({ record }) => {
   const [hydrated, setHydrated] = useState(false);
   const { address, isConnecting, isDisconnected } = useAccount();
-  // const { data: signer } = useSigner();
 
   const { data: blockStamp } = useBlockNumber();
   //on first hit
@@ -21,7 +20,15 @@ export const JobItem = ({ record }) => {
   useEffect(() => {
     if (hydrated) {
       // alert("Changed Record");
+     let pleaseMint =  record.getCellValue("please_mint"); 
+     console.log("PleaseMint ?=> " + pleaseMint); 
+     let minted = record.getCellValue("minted"); 
+     console.log("Minted ?=> " + minted); 
+     
+     if(pleaseMint && !minted){
       mint();
+     }
+      
     }
   }, [record.getCellValue("stateString")]);
 
