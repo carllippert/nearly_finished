@@ -23,8 +23,8 @@ contract AuroraFloo is ERC721, Ownable {
         address recipient;
         //for the entity doing the work. Built in way to hire 3rd parties native to the protocol
         //also often left at zero. For this may be a salaried job not an external one.
-        uint256 executerFee;
-        //for the system, address,  etc that mints the NFT
+         uint256 executerFee;
+         //for the system, address,  etc that mints the NFT
         //economic incentive for integration into 3rd party user tools like Asana, Github, Airtable, etc
         //maybe not store? would improve efficiency since payout is at mint
         //may also be not regularly used. Platforms could say "pay for enterprise with USD" and they just cover txn costs and
