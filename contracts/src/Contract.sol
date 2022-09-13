@@ -64,10 +64,10 @@ contract AuroraFloo is ERC721, Ownable {
     /// @notice Emitted when an ask is created
     /// @param tokenId The ERC-721 token ID of the created Job
     /// @param job The metadata of the created job
-    event JobCreated(uint256 indexed tokenId, Job job);
-    event JobClaimed(uint256 indexed tokenId, Job job); 
-    event JobConfirmedComplete(uint256 indexed tokenId, Job job);
-    event JobFinished(uint256 indexed tokenId, Job job); 
+    event JobCreated(uint256 indexed tokenId);
+    event JobClaimed(uint256 indexed tokenId);
+    event JobConfirmedComplete(uint256 indexed tokenId);
+    event JobFinished(uint256 indexed tokenId);
 
     // Custom URI for each token
     mapping(uint256 => string) private _tokenURIs;
@@ -160,7 +160,7 @@ contract AuroraFloo is ERC721, Ownable {
             recipientConfirmsCompletion: false
         });
 
-        emit JobCreated(_tokenId, _jobs[_tokenId]);
+        emit JobCreated(_tokenId);
 
         return _tokenId;
     }
@@ -300,7 +300,7 @@ contract AuroraFloo is ERC721, Ownable {
         _reclaimableBalances[job.recipient] -= _totalFee;
         _lockedBalances[job.recipient] += _totalFee;
 
-        emit JobClaimed(tokenId, job); 
+        emit JobClaimed(tokenId);
 
         return tokenId;
     }
@@ -317,7 +317,7 @@ contract AuroraFloo is ERC721, Ownable {
         );
         job.creatorConfirmsCompletion = true;
 
-        emit JobConfirmedComplete(_tokenId, job); 
+        emit JobConfirmedComplete(_tokenId);
     }
 
     //TODO: design of hooks to allow for arbitrary complexity for "completion state determination"
@@ -330,7 +330,7 @@ contract AuroraFloo is ERC721, Ownable {
         _exists(tokenId);
         //require that the token is available to be claimed
         //token not burned
-        
+
         //token either unclaimed or claimed by executer
         //can be finished if either unclaimed or claimed by finisher
         Job memory job = _jobs[tokenId];
@@ -339,7 +339,6 @@ contract AuroraFloo is ERC721, Ownable {
             _jobsClaimer[tokenId] == address(0) ||
             _jobsClaimer[tokenId] == executer
         ) {
-          
             uint256 _totalFee = job.executerFee + job.recruiterFee;
             // START by reducing balances from corresponding balances
             //from the person who made the job in the first place
@@ -372,7 +371,7 @@ contract AuroraFloo is ERC721, Ownable {
             revert("not able to finish job");
         }
 
-        emit JobFinished(tokenId, job); 
+        emit JobFinished(tokenId);
 
         return tokenId;
     }
