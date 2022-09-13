@@ -71,59 +71,59 @@ const JobCard = ({ tokenID }: { tokenID: string }) => {
     }
   );
 
-  const fetchMeta = async () => {
-    try {
+  // const fetchMeta = async () => {
+  //   try {
         
-      setLoading(true);
-      console.log("TokenURI -> " + job?.tokenURI);
-      let res = await fetch(String(job?.tokenURI));
-      let json = await res.json();
+  //     setLoading(true);
+  //     console.log("TokenURI -> " + job?.tokenURI);
+  //     let res = await fetch(String(job?.tokenURI));
+  //     let json = await res.json();
 
-      setMetadata(json);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  //     setMetadata(json);
+  //   } catch (error) {
+  //     console.log(error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
-  useEffect(() => {
-    if (job.tokenURI) {
-      fetchMeta();
-    }
-  }, [job.tokenURI]);
+  // useEffect(() => {
+  //   if (job.tokenURI) {
+  //     fetchMeta();
+  //   }
+  // }, [job.tokenURI]);
 
-  useEffect(() => {
-    if (jobStatusData && jobData) {  
-        let newJob: Job = {
-            ...job,
-            creator: jobData[0],
-            recipient: jobData[1],
-            executorFee: formatEther(jobData[2]),
-            creatorFee: formatEther(jobData[3]),
-            recruiterFee: formatEther(jobData[4]),
-            deadline: jobData[5].toNumber(),
-            tokenURI: jobData[6],
-            creatorConfirmsCompletion: jobData[7],
-            recipientConfirmsCompletion: jobData[8],
-          };
+  // useEffect(() => {
+  //   if (jobStatusData && jobData) {  
+  //       let newJob: Job = {
+  //           ...job,
+  //           creator: jobData[0],
+  //           recipient: jobData[1],
+  //           executorFee: formatEther(jobData[2]),
+  //           creatorFee: formatEther(jobData[3]),
+  //           recruiterFee: formatEther(jobData[4]),
+  //           deadline: jobData[5].toNumber(),
+  //           tokenURI: jobData[6],
+  //           creatorConfirmsCompletion: jobData[7],
+  //           recipientConfirmsCompletion: jobData[8],
+  //         };
         
-      setJob({
-        ...newJob,
-        claimer: jobStatusData[0],
-        canceller: jobStatusData[1],
-        recruiter: jobStatusData[2],
-        executer: jobStatusData[3],
-      });
-      if (jobStatusData[1] !== zeroAddress) {
-        //job has been cancelled by nonzeroaddress
-        setCancelled(true);
-      }
-      if (jobStatusData[3] !== zeroAddress) {
-        setFinished(true);
-      }
-    }
-  }, [jobData, jobStatusData]);
+  //     setJob({
+  //       ...newJob,
+  //       claimer: jobStatusData[0],
+  //       canceller: jobStatusData[1],
+  //       recruiter: jobStatusData[2],
+  //       executer: jobStatusData[3],
+  //     });
+  //     if (jobStatusData[1] !== zeroAddress) {
+  //       //job has been cancelled by nonzeroaddress
+  //       setCancelled(true);
+  //     }
+  //     if (jobStatusData[3] !== zeroAddress) {
+  //       setFinished(true);
+  //     }
+  //   }
+  // }, [jobData, jobStatusData]);
 
   return (
     <li className={`md:flex md:items-center md:justify-between py-8 px-8 my-2 rounded-lg border-2 ${finished ? "border-8 border-green-400" : ""}`} >

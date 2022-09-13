@@ -50,7 +50,6 @@ const FetchingData = () => {
       ) : (
         "No Jobs"
       )}
-      {/* <div>{JSON.stringify(fakeJobs)}</div> */}
     </div>
   );
 };

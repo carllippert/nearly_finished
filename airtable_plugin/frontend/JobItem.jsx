@@ -4,7 +4,7 @@ import { AURORA_FLOO_ABI } from "./AuroraFlooAbi";
 import { parseUnits, parseEther } from "ethers/lib/utils";
 import { BigNumber } from "ethers";
 
-const contract_address = "0x3c0122039dB51EaA5b8A9f258EBc0D2848e2B85b";
+const contract_address = "0xCF1Ae320Dc953EFb8B0A22866af86503bd6AD3E3";
 
 export const JobItem = ({ record }) => {
   const [hydrated, setHydrated] = useState(false);
