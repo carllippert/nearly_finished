@@ -1,22 +1,13 @@
 
-### Foundry
-
-forge init contracts --no-git --vscode
-may need to fuck with remappings.txt
-
-## Run
+## For running contracts
+## Run in contracts folder
 
 1. Start Local Blockchain @ /contracts
    anvil --host 0.0.0.0
 2. Deploy contracts @ /contracts
    make all
-3. Start Local Graph Node @/local_graph_node/docker
-   docker-compose up
-   mas detalle: https://thegraph.academy/developers/local-development/
-4. Deploy Local Subgraph
-   yarn && yarn codegen && yarn create-local && yarn deploy-local
-5. Start Next
-   yarn dev
 
-   graphiql?
-   echo NEXT_APP_GRAPHQL=http://localhost:8000/subgraphs/name/<GITHUB_USERNAME>/<SUBGRAPH_NAME>' > .env
+
+If fails
+
+try `forge install` in contracts folders
