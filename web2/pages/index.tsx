@@ -9,15 +9,6 @@ import { contract_address } from "../utils/consts";
 import FLOO_NFT_CONTRACT from "../../contracts/out/Contract.sol/AuroraFloo.json";
 import { BigNumber, ethers } from "ethers";
 
-var Airtable = require("airtable");
-
-Airtable.configure({
-  endpointUrl: "https://api.airtable.com",
-  apiKey: process.env.AIRTABLE_API_KEY,
-});
-
-export const base = Airtable.base("appOnkz0CjeAKYq89");
-
 type FakeJob = {
   tokenID: string;
 };
