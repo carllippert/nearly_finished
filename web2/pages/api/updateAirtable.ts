@@ -34,9 +34,9 @@ const NFTS_AMOUNT = 4;
 
 const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
 
-function range(start: number, end: number) {
-  return Array(end - start + 1).fill().map((_, idx) => start + idx)
-}
+// function range(start: number, end: number) {
+//   return Array(end - start + 1).fill().map((_, idx) => start + idx)
+// }
 
 // called by cron (github actions is fine for now every 5 minutes)
 export default async function updateAirtable(
