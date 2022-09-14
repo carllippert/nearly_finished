@@ -9,11 +9,14 @@ import { AURORA_FLOO_ABI } from "./AuroraFlooAbi";
 import { parseUnits, parseEther } from "ethers/lib/utils";
 import { BigNumber } from "ethers";
 import { useBase } from "@airtable/blocks/ui";
+// import { base } from './index'; 
 
 const contract_address = "0xCF1Ae320Dc953EFb8B0A22866af86503bd6AD3E3";
 
 export const JobItem = ({ record }) => {
-
+//TODO: fetch airtable data, 
+  //TODO: update the record with tokenId if we don't have it yet. 
+  
   let [jobsCount, setJobsCount] = useState(0);
 
   const base = useBase();
