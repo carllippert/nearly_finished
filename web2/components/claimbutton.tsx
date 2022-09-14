@@ -45,6 +45,13 @@ const ClaimButton = ({ job }: { job: Job }) => {
           address, //executer
         ],
       });
+      // TODO: fetch API endpoint here
+      const response = await fetch(
+        `/api/claim_nft?tokenId=${job.tokenID}&recordId=${job.recordId}`
+      );
+      const data = await response.json();
+      console.log("data: ", data);
+      return data;
     } else {
       console.log("No account for claim");
     }
