@@ -10,7 +10,7 @@ import { parseUnits, parseEther } from "ethers/lib/utils";
 import { BigNumber } from "ethers";
 import { useBase } from "@airtable/blocks/ui";
 
-const contract_address = "0x434c6F485b884aF3BF0Fe31657F301811146Ac32";
+const contract_address = "0xC681CE1a7780098A80Ec0609E5Ef32b6479f9a92";
 
 export const JobItem = ({ record }) => {
 //TODO: fetch airtable data, 
@@ -40,7 +40,7 @@ export const JobItem = ({ record }) => {
 
       let confirm = record.getCellValue("confirmed");
 
-      if (pleaseMint && !minted) {
+      if (pleaseMint && !minted && !confirm) {
         mint();
       }
 
