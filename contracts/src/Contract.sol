@@ -127,7 +127,7 @@ contract AuroraFloo is ERC721, Ownable {
 
     function mintTo(
         string memory _name,
-        string memory _recordId, 
+        string memory _recordId,
         address _creator,
         address _recipient,
         string memory _tokenURI,
