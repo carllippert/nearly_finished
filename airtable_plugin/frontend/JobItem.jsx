@@ -58,48 +58,9 @@ export const JobItem = ({ record }) => {
     functionName: "mintTo",
   });
 
-  // const { data } = useContractRead({
-  //   addressOrName: contract_address,
-  //   contractInterface: AURORA_FLOO_ABI.abi,
-  //   functionName: "getCurrentTokenId",
-  // });
-
-  // const { data, error } = useContractRead(
-  //   {
-  //     addressOrName: contract_address,
-  //     contractInterface: AURORA_FLOO_ABI.abi,
-  //   },
-  //   "getCurrentTokenId"
-  // );
-
-  // useEffect(() => {
-  //   if (data) {
-  //     let number = BigNumber.from(data);
-
-  //     let parsed = parseInt(number._hex);
-
-  //     console.log("CurrentTokenID", parsed);
-
-  //     setJobsCount(parsed);
-  //   }
-  // }, [data]); 
 
   const mint = async () => {
     try {
-      //get expected tokenID;
-
-      // if (data) {
-      //   let number = BigNumber.from(data);
-
-      //   let parsed = parseInt(number._hex);
-
-      //   console.log("CurrentTokenID for next mint", parsed);
-      // } else {
-      //   console.log("no data... aka no tokenId");
-      //   console.log(error);
-      // }
-
-      //TODO: write to airtable if success.
 
       const ethExecFee = parseUnits(
         String(record.getCellValue("exec_fee_eth"))
@@ -152,12 +113,8 @@ export const JobItem = ({ record }) => {
 
       console.log("Blob => " + JSON.stringify(blob));
 
-      const stuff = await writeAsync(blob);
+      await writeAsync(blob);
 
-      // console.log("Stuff" + JSON.stringify(stuff));
-
-      //TODO: write tokenId to airtable.
-      // table.updateRecordAsync(record, { tokenId: jobsCount });
     } catch (e) {
       console.log("Error" + JSON.stringify(e));
       throw Error(e);
@@ -173,8 +130,11 @@ export const JobItem = ({ record }) => {
 
   const confirmTxn = async () => {
     try {
+      let tokenId = record.getCellValue("tokenId");
+      console.log("tokenId ?=> " + tokenId);
+
       await writeConfirm({
-        args: [token],
+        args: [tokenId],
       });
     } catch (e) {
       console.log(e);
