@@ -7,6 +7,7 @@ import ClaimButton from "./claimbutton";
 import FinishButton from "./finishbutton";
 import { useAppContext } from "../context/appContext";
 import { formatEther } from "ethers/lib/utils";
+import { BigNumber, ethers } from "ethers";
 
 export const zeroAddress = "0x0000000000000000000000000000000000000000";
 
@@ -17,9 +18,9 @@ export type Job = {
   hasAllowlist: boolean;
   creator: string;
   recipient: string;
-  executorFee: string;
+  executorFee: number;
   creatorFee: string;
-  recruiterFee: string;
+  recruiterFee: number;
   deadline: number;
   tokenURI: string;
   creatorConfirmsCompletion: boolean;
@@ -34,6 +35,7 @@ const JobCard = ({ tokenID }: { tokenID: string }) => {
   let [metadata, setMetadata] = useState<any>(null);
   let [loading, setLoading] = useState(false);
   let [cancelled, setCancelled] = useState(false);
+  let [confirmed, setConfirmed] = useState(false);
   let [finished, setFinished] = useState(false);
 
   const { address } = useAccount();
@@ -45,9 +47,9 @@ const JobCard = ({ tokenID }: { tokenID: string }) => {
     recordId: "",
     hasAllowlist: false,
     recipient: "",
-    executorFee: "",
+    executorFee: 0,
     creatorFee: "",
-    recruiterFee: "",
+    recruiterFee: 0,
     deadline: 0,
     tokenURI: "",
     creatorConfirmsCompletion: false,
@@ -85,6 +87,9 @@ const JobCard = ({ tokenID }: { tokenID: string }) => {
         name: jobData[0],
         recordId: jobData[1],
         hasAllowlist: jobData[2],
+        executorFee: parseInt(BigNumber.from(jobData[3])._hex),
+        creatorConfirmsCompletion: jobData[4],
+        recipientConfirmsCompletion: jobData[5],
       });
 
       if (jobStatusData[1] !== zeroAddress) {
@@ -93,6 +98,9 @@ const JobCard = ({ tokenID }: { tokenID: string }) => {
       }
       if (jobStatusData[3] !== zeroAddress) {
         setFinished(true);
+      }
+      if (jobData[4] && jobData[5]) {
+        setConfirmed(true);
       }
     }
   }, [jobStatusData, jobData]);
@@ -112,6 +120,12 @@ const JobCard = ({ tokenID }: { tokenID: string }) => {
           <div>
             {job.hasAllowlist ? "claim restricted" : "openly claimable"}
           </div>
+          <div className="flex">
+            <div className="bg-green-500 text-white p-1 rounded-lg">
+              Pays: ${job.executorFee * 0.00000000005}
+            </div>
+            <div className="flex-1" />
+          </div>
         </div>
       </div>
       <div className="mt-4 flex md:mt-0 md:ml-4">
@@ -121,6 +135,7 @@ const JobCard = ({ tokenID }: { tokenID: string }) => {
             <FinishButton job={job} />{" "}
           </>
         )}
+        <div style={{ fontSize: "70px" }}>{confirmed ? "💰" : null}</div>
       </div>
     </li>
   );

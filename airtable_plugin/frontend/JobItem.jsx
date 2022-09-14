@@ -88,9 +88,11 @@ export const JobItem = ({ record }) => {
 
       let allowlist = [];
 
-      allowListBlob.forEach((item) => {
-        allowlist.push(item.value);
-      });
+      if(allowListBlob){
+        allowListBlob.forEach((item) => {
+          allowlist.push(item.value);
+        });
+      }
 
       let name = record.name;
 
