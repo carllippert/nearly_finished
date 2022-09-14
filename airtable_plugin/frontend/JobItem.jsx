@@ -9,9 +9,8 @@ import { AURORA_FLOO_ABI } from "./AuroraFlooAbi";
 import { parseUnits, parseEther } from "ethers/lib/utils";
 import { BigNumber } from "ethers";
 import { useBase } from "@airtable/blocks/ui";
-// import { base } from './index'; 
 
-const contract_address = "0xCF1Ae320Dc953EFb8B0A22866af86503bd6AD3E3";
+const contract_address = "0x434c6F485b884aF3BF0Fe31657F301811146Ac32";
 
 export const JobItem = ({ record }) => {
 //TODO: fetch airtable data, 

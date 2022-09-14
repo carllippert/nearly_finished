@@ -18,13 +18,13 @@ contract AuroraFloo is ERC721, Ownable {
         //avergae user will not be a *creator*
         //systems will be creators
         string name;
-        string recordId; 
+        string recordId;
         address creator;
         address recipient;
         //for the entity doing the work. Built in way to hire 3rd parties native to the protocol
         //also often left at zero. For this may be a salaried job not an external one.
-         uint256 executerFee;
-         //for the system, address,  etc that mints the NFT
+        uint256 executerFee;
+        //for the system, address,  etc that mints the NFT
         //economic incentive for integration into 3rd party user tools like Asana, Github, Airtable, etc
         //maybe not store? would improve efficiency since payout is at mint
         //may also be not regularly used. Platforms could say "pay for enterprise with USD" and they just cover txn costs and
@@ -171,7 +171,7 @@ contract AuroraFloo is ERC721, Ownable {
         }
 
         newJob.name = _name;
-        newJob.recordId = _recordId; 
+        newJob.recordId = _recordId;
         newJob.creator = _creator;
         newJob.recipient = _recipient;
         newJob.executerFee = _executerFee;
@@ -181,7 +181,7 @@ contract AuroraFloo is ERC721, Ownable {
         newJob.tokenURI = _tokenURI;
         newJob.creatorConfirmsCompletion = false;
         newJob.recipientConfirmsCompletion = false;
-        newJob.hasAllowList = _hasAllowList;      // newJob.allowList = _allowList;
+        newJob.hasAllowList = _hasAllowList; // newJob.allowList = _allowList;
 
         emit JobCreated(msg.sender, _tokenId);
 
@@ -243,7 +243,14 @@ contract AuroraFloo is ERC721, Ownable {
         public
         view
         virtual
-        returns (string memory name, string memory recordId, bool hasAllowList)
+        returns (
+            string memory name,
+            string memory recordId,
+            bool hasAllowList,
+            uint256 executerFee,
+            bool creatorConfirm,
+            bool recipientConfirm
+        )
     {
         require(
             _exists(tokenId),
@@ -252,7 +259,14 @@ contract AuroraFloo is ERC721, Ownable {
 
         Job storage _job = _jobs[tokenId];
 
-        return (_job.name, _job.recordId, _job.hasAllowList); 
+        return (
+            _job.name,
+            _job.recordId,
+            _job.hasAllowList,
+            _job.executerFee,
+            _job.creatorConfirmsCompletion,
+            _job.recipientConfirmsCompletion
+        );
     }
 
     function getJobStatus(uint256 tokenId)
