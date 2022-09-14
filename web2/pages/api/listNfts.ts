@@ -32,6 +32,7 @@ export default async function listNfts(
   req: NextApiRequest,
   res: NextApiResponse<NftList>
 ) {
+  // TODO: request from Airtable instead
   const nfts = await axios.get(`https://api.covalenthq.com/v1/1/tokens/${SMART_CONTRACT_ID}/nft_token_ids/?key=${COVALENT_API_KEY}`)
   console.log(nfts.data.data.items)
   const result = { nfts: nfts.data.data.items };
