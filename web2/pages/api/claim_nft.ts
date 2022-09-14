@@ -5,6 +5,15 @@ type Data = {
   name: string
 }
 
+var Airtable = require('airtable');
+
+Airtable.configure({
+    endpointUrl: 'https://api.airtable.com',
+    apiKey: process.env.AIRTABLE_API_KEY, 
+});
+
+var base = Airtable.base('appOnkz0CjeAKYq89');
+
 export default function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
