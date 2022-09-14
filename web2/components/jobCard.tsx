@@ -13,7 +13,7 @@ export const zeroAddress = "0x0000000000000000000000000000000000000000";
 export type Job = {
   tokenID: string;
   name: string; 
-  recrodId: string; 
+  recordId: string; 
   hasAllowlist: boolean; 
   creator: string;
   recipient: string;
@@ -44,7 +44,7 @@ const JobCard = ({ tokenID }: { tokenID: string }) => {
     creator: "",
     name: "", 
     recordId: "", 
-    hasAllowList: "", 
+    hasAllowlist: false, 
     recipient: "",
     executorFee: "",
     creatorFee: "",
@@ -89,7 +89,7 @@ const JobCard = ({ tokenID }: { tokenID: string }) => {
       executer: jobStatusData[3],
       name: jobData[0], 
       recordId: jobData[1], 
-      hasAllowList: jobData[2], 
+      hasAllowlist: jobData[2], 
     }) 
  
     if (jobStatusData[1] !== zeroAddress) {
