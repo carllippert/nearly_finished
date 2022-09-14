@@ -24,7 +24,10 @@ export default async (
   console.log({ tokenId });
   console.log({ recordId });
   try {
-    const updatedJobs = await base("Jobs").update(recordId, { tokenId });
+    const updatedJobs = await base("Jobs").update(recordId, {
+      tokenId,
+      claimed: true,
+    });
     res.status(200).json(updatedJobs);
   } catch (err) {
     console.log(err);
